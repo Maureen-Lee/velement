@@ -15,6 +15,7 @@
       <div>name2</div>
     </CollapseItem>
   </Collapse>
+  <font-awesome-icon :icon="['fas', 'user-secret']" />
   {{ activeNames }}
   </div>
 </template>
