@@ -15,18 +15,20 @@
       <div>name2</div>
     </CollapseItem>
   </Collapse>
-  <font-awesome-icon :icon="['fas', 'user-secret']" />
+  
+  <Icon icon="user-secret" />  
+  <Icon icon="lock" /> 
+
   {{ activeNames }}
   </div>
 </template>
 
 <script  setup lang="ts" >
-import { Vue } from 'vue-class-component';
 import { ref,onMounted,inject} from 'vue'
 import  Button  from '@/components/Button/Button.vue'
 import CollapseItem from '@/components/Collapse/CollapseItem.vue';
 import Collapse from '@/components/Collapse/Collapse.vue';
-
+import Icon from '@/components/Icon/Icon.vue'
 const activeNames = ref(['1'])
 const buttonRef = ref()
 onMounted(()=>{
