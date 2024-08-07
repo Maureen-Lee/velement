@@ -13,6 +13,8 @@
     :disabled="disabled"
     :type="nativeType"
     >
+    <Icon icon="spinner" spin v-if="loading"></Icon>
+    <Icon :icon="icon"  v-if="icon"></Icon>
     <span> 
         <slot></slot>
     </span>
@@ -22,6 +24,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { ButtonProps } from './type'
+import Icon  from '../Icon/Icon.vue';
 withDefaults(defineProps<ButtonProps>(),{
     nativeType:'button',
 

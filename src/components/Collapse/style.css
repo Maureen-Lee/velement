@@ -50,6 +50,7 @@
   color: var(--vk-collapse-content-text-color);
   border-bottom: 1px solid var(--vk-collapse-border-color);
   padding-bottom: 25px;
+  text-align: left;
 }
 .slide-enter-active, .slide-leave-active {
   transition: height var(--vk-transition-duration);

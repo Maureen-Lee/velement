@@ -16,9 +16,10 @@
     </CollapseItem>
   </Collapse>
   
-  <Icon icon="user-secret" />  
+  <Icon icon="user-secret" type="primary"/>  
   <Icon icon="lock" /> 
-
+  <Button  loading>Loading</Button>
+  <Button icon="house" >Icon</Button>
   {{ activeNames }}
   </div>
 </template>

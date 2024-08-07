@@ -4,11 +4,16 @@
      >
     <div 
       class="vk-collapse-item__header"
+      :class="{
+        'is-disabled': disabled,
+        'is-active': isActive
+      }"
      @click="handleClick(props.name)">
         <slot name="title">{{ title }}</slot>
+    <Icon icon="angle-right" class="header-angle"/>
     </div>
     <transition name="slide" v-on="transitionEvents">
-    <div class="vk-collapse-item__wrapper" v-show="activeNames.includes(props.name)">
+    <div class="vk-collapse-item__wrapper" v-show="isActive">
     <div 
       class="vk-collapse-item__content"
       >
@@ -19,12 +24,14 @@
     </div>
 </template>
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject,computed } from 'vue'
 import type { CollapseItemProp } from "./type"
+import Icon from "@/components/Icon/Icon.vue"
 import { collapseKey }  from './type'
 const props = defineProps<CollapseItemProp>()
 const key = inject(collapseKey)
 const activeNames = key?.activeNames
+const isActive = computed(()=> activeNames?.value.includes(props.name))
 const handleClick = (type: string | number) => {
             
    key?.handleClick(type)
