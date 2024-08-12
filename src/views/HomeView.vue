@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" ref="triggerNode">
-    <div ref="overlayNode"><h1>Hello tooltip</h1></div>
-    <Button type="primary" ref="buttonRef">Test Button</Button>
-    <Collapse v-model="activeNames" >
+    <img  ref="triggerNode" alt="Vue logo" src="../assets/logo.png" >
+     <div ref="overlayNode"><h1>Hello tooltip</h1></div> 
+    <Button type="primary" ref="buttonRef">Test Button</Button> 
+     <Collapse v-model="activeNames" >
     <CollapseItem title="hello collapse" name="1">
       <div>name1</div>
       <div>name2</div>
@@ -18,13 +18,20 @@
   </Collapse>
   
   <Icon icon="user-secret" type="primary"/>  
-  <Icon icon="lock" /> 
+   <Icon icon="lock" /> 
   <Button  loading>Loading</Button>
   <Button icon="house" >Icon</Button>
   {{ activeNames }}
-  <Tooltip  content="tooltip content">
-    <div><Button>Test Tooltip</Button></div>
+  <Button @click="closeToolTip()">close Tooltip</Button>
+  <Button @click="showTooltip()">Open Tooltip</Button>
+  <Tooltip  content="tooltip content" trigger="hover" ref="tooltipRef" placement="right" manual>
+    <div><Button>Test manual Tooltip</Button></div>
   </Tooltip>
+  <Tooltip  content="toolcontent2222" trigger="hover"  placement="right" >
+    <div>tpfdnvpeo</div>
+  </Tooltip>
+
+
   </div>
 </template>
 
@@ -32,6 +39,7 @@
 import { ref,onMounted,inject} from 'vue'
 import { createPopper } from '@popperjs/core';
 import type { Instance } from '@popperjs/core'
+import { TooltipInstance } from '@/components/Tooltip/type';
 import  Button  from '@/components/Button/Button.vue'
 import CollapseItem from '@/components/Collapse/CollapseItem.vue';
 import Collapse from '@/components/Collapse/Collapse.vue';
@@ -44,16 +52,27 @@ onMounted(()=>{
 })
 const overlayNode = ref<HTMLElement>()
 const triggerNode = ref<HTMLElement>()
+const tooltipRef = ref<TooltipInstance | null>(null)
 let popperInstance:Instance|null = null
-if(overlayNode.value && triggerNode.value){
-popperInstance = createPopper(triggerNode.value,overlayNode.value,{
-  placement:'top',
+// if(overlayNode.value && triggerNode.value){
+//   console.log("生成")
+onMounted(()=>{
+  popperInstance = createPopper(triggerNode.value,overlayNode.value,{
+  placement: 'left'
 })
-}
-setTimeout(()=>{
-   activeNames.value = ['1','2']
-   popperInstance?.setOptions({placement:"bottom"})
-},2000)
+})
 
+//}
+
+const showTooltip = ()=>{
+  console.log("tooltipRef",tooltipRef)
+  if(tooltipRef.value)
+  tooltipRef.value.show()
+}
+const closeToolTip =()=>{
+  console.log("tooltipRef",tooltipRef.value)
+  if(tooltipRef.value)
+  tooltipRef.value.hide()
+}
 //export default class HomeView extends Vue {}
 </script>

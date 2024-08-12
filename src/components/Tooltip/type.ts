@@ -1,12 +1,19 @@
 
-type place = "top" | "top-start" | "top-end" | "bottom" | "bottom-start" | "bottom-end"
+import type { Placement ,Options} from '@popperjs/core'
 export interface TooltipProps {
     effect?: "dark" | "light";
     content?: string;
     trigger?: 'hover' | 'click';
-    placement?: place;
+    placement?: Placement;
+    manual?: boolean;
+    popperOptions?:Options;
 }
 
 export interface TooltipEmits{
     (e:'visible-change',value: boolean): void,
+}
+
+export interface TooltipInstance {
+    show: ()=>void;
+    hide: ()=>void;
 }
