@@ -17,7 +17,10 @@
       ref="popperNode"
       class="vk-tooltip__popper" 
       >
-     {{ content }}
+      <slot name="content">
+        {{ content }}
+                
+      </slot>
      <div id="arrow" data-popper-arrow></div>
     </div>
         
@@ -80,7 +83,7 @@ useClickOutside(triggerNode,()=>{
 const attachEvents = ()=>{
     if(props.trigger === 'hover'){
        events['mouseenter'] = open;
-       events['mouseleave'] = close;
+       //events['mouseleave'] = close;
        outerEvents['mouseleave'] = close
     }
     else if (props.trigger === 'click'){

@@ -30,7 +30,7 @@
   <Tooltip  content="toolcontent2222" trigger="hover"  placement="right" >
     <div>tpfdnvpeo</div>
   </Tooltip>
-
+  <DropDown v-bind:menu-options="menuOptions">下拉菜单</DropDown>
 
   </div>
 </template>
@@ -45,6 +45,7 @@ import CollapseItem from '@/components/Collapse/CollapseItem.vue';
 import Collapse from '@/components/Collapse/Collapse.vue';
 import Icon from '@/components/Icon/Icon.vue'
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
+import DropDown from '@/components/DropDown/DropDown.vue';
 const activeNames = ref(['1'])
 const buttonRef = ref()
 onMounted(()=>{
@@ -74,5 +75,19 @@ const closeToolTip =()=>{
   if(tooltipRef.value)
   tooltipRef.value.hide()
 }
-//export default class HomeView extends Vue {}
+const menuOptions = [
+  {
+    label: 'string1',
+    key: 1,
+    disabled: false,
+    divided: false
+  },
+  {
+    label: 'string2',
+    key: 2,
+    disabled: false,
+    divided: false
+  },
+
+]
 </script>
