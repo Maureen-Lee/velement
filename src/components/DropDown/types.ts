@@ -2,7 +2,8 @@ import type {VNode} from 'vue'
 import type {TooltipProps} from '../Tooltip/type'
 
 export interface DropdownProps extends TooltipProps{
-     menuOptions: []   
+     menuOptions: [];
+     hideAfterClick?:boolean;//点击下拉内容选项后是否关闭
 }
 
 export interface MenuOptions {

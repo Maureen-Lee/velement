@@ -7,6 +7,9 @@ export interface TooltipProps {
     placement?: Placement;
     manual?: boolean;
     popperOptions?:Options;
+    transition?: string;
+    openDelay?: number;
+    closeDelay?: number;
 }
 
 export interface TooltipEmits{

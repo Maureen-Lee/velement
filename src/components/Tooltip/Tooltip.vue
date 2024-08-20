@@ -12,17 +12,18 @@
       >
         <slot></slot>
       </div>
+      <Transition>
       <div
       v-show="isOpen"
       ref="popperNode"
       class="vk-tooltip__popper" 
       >
       <slot name="content">
-        {{ content }}
-                
+        {{ content }}    
       </slot>
      <div id="arrow" data-popper-arrow></div>
-    </div>
+      </div>
+    </Transition>
         
     </div>
 </template>
@@ -32,11 +33,16 @@ import {ref,watch,reactive,computed} from 'vue'
 import { useClickOutside } from '../../hooks/useClickOutside'
 import { createPopper, popper } from '@popperjs/core';
 import type { Instance } from '@popperjs/core';
+import { debounce } from "lodash";
 import type { TooltipProps ,TooltipEmits,TooltipInstance} from './type'
 import { onMounted } from 'vue';
 const props = withDefaults(defineProps<TooltipProps>(),{
     placement: 'left',
     trigger:'hover',
+    transition:'fade',
+    manual: false,
+    openDelay:150,
+    closeDelay:150
 })
 const emits = defineEmits<TooltipEmits>()
 const isOpen = ref(false)
@@ -67,24 +73,35 @@ const togglePopper = () => {
 }
 const open = ()=>{
     isOpen.value = true;
+    console.log("打开")
     emits('visible-change', true)
 }
 const close = ()=>{
     isOpen.value = false;
     emits('visible-change', false)
 }
+const openDebounce = debounce(open,props.openDelay)
+const closeDebounce = debounce(close,props.closeDelay)
+
+const openFinal = ()=>{
+  closeDebounce.cancel()
+  openDebounce()
+}
+const closeFinal = ()=>{
+  openDebounce.cancel()
+  closeDebounce()
+}
 useClickOutside(triggerNode,()=>{
   if(!props.manual)
   {
   if(props.trigger == 'click' && isOpen.value )
-  close()
+  closeDebounce()
   }
 })
 const attachEvents = ()=>{
     if(props.trigger === 'hover'){
-       events['mouseenter'] = open;
-       //events['mouseleave'] = close;
-       outerEvents['mouseleave'] = close
+      events['mouseenter'] = openFinal;
+      outerEvents['mouseleave'] = closeFinal;
     }
     else if (props.trigger === 'click'){
         events['click'] = togglePopper;
@@ -115,7 +132,7 @@ watch(isOpen,(newValue)=>{
     }
 })
 defineExpose<TooltipInstance>({
-  'show': open,
-  'hide': close
+  'show': openFinal,
+  'hide': closeFinal
 })
 </script>

@@ -27,7 +27,7 @@
   <Tooltip  content="tooltip content" trigger="hover" ref="tooltipRef" placement="right" manual>
     <div><Button>Test manual Tooltip</Button></div>
   </Tooltip>
-  <Tooltip  content="toolcontent2222" trigger="hover"  placement="right" >
+  <Tooltip  content="toolcontent2222" trigger="hover"  placement="right" :openDelay="1000" :close-delay="1000">
     <div>tpfdnvpeo</div>
   </Tooltip>
   <DropDown v-bind:menu-options="menuOptions">下拉菜单</DropDown>
@@ -36,7 +36,7 @@
 </template>
 
 <script  setup lang="ts" >
-import { ref,onMounted,inject} from 'vue'
+import { ref,onMounted,inject, h} from 'vue'
 import { createPopper } from '@popperjs/core';
 import type { Instance } from '@popperjs/core'
 import { TooltipInstance } from '@/components/Tooltip/type';
@@ -77,16 +77,19 @@ const closeToolTip =()=>{
 }
 const menuOptions = [
   {
-    label: 'string1',
+    label: h('b','this is bold'),
     key: 1,
-    disabled: false,
-    divided: false
+    disabled: true,
   },
   {
     label: 'string2',
     key: 2,
     disabled: false,
-    divided: false
+  },
+  {
+    label: 'string3',
+    key: 3,
+    disabled: false,
   },
 
 ]
