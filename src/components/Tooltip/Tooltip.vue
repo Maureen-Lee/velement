@@ -17,6 +17,7 @@
       v-show="isOpen"
       ref="popperNode"
       class="vk-tooltip__popper" 
+      v-on="events"
       >
       <slot name="content">
         {{ content }}    
