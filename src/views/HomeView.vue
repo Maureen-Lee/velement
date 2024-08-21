@@ -46,6 +46,8 @@ import Collapse from '@/components/Collapse/Collapse.vue';
 import Icon from '@/components/Icon/Icon.vue'
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import DropDown from '@/components/DropDown/DropDown.vue';
+import Message from '@/components/Message/Message.vue'
+import { createMessage } from '@/components/Message/method'
 const activeNames = ref(['1'])
 const buttonRef = ref()
 onMounted(()=>{
@@ -58,6 +60,8 @@ let popperInstance:Instance|null = null
 // if(overlayNode.value && triggerNode.value){
 //   console.log("生成")
 onMounted(()=>{
+  createMessage({message: "hello world",duration:0})
+  createMessage({message: "hello world again",duration:0})
   popperInstance = createPopper(triggerNode.value,overlayNode.value,{
   placement: 'left'
 })
