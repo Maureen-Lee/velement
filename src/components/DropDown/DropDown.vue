@@ -47,6 +47,7 @@ const itemClick = (e: MouseEvent) => {
      if(e.disabled){
          return;
      }
+     console.log("下拉菜单点击",e)
      emits('select',e)
      if(props.hideAfterClick){
       tooltipRef.value?.hide();

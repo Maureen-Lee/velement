@@ -74,7 +74,6 @@ const togglePopper = () => {
 }
 const open = ()=>{
     isOpen.value = true;
-    console.log("打开")
     emits('visible-change', true)
 }
 const close = ()=>{

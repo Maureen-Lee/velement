@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-    <img  ref="triggerNode" alt="Vue logo" src="../assets/logo.png" >
-     <div ref="overlayNode"><h1>Hello tooltip</h1></div> 
     <Button type="primary" ref="buttonRef">Test Button</Button> 
      <Collapse v-model="activeNames" >
     <CollapseItem title="hello collapse" name="1">
@@ -17,8 +15,6 @@
     </CollapseItem>
   </Collapse>
   
-  <Icon icon="user-secret" type="primary"/>  
-   <Icon icon="lock" /> 
   <Button  loading>Loading</Button>
   <Button icon="house" >Icon</Button>
   {{ activeNames }}
@@ -31,12 +27,12 @@
     <div>tpfdnvpeo</div>
   </Tooltip>
   <DropDown v-bind:menu-options="menuOptions">下拉菜单</DropDown>
-
+  <Button @click="createMessage({message :'hello world'})">创建message</Button>
   </div>
 </template>
 
 <script  setup lang="ts" >
-import { ref,onMounted,inject, h} from 'vue'
+import { ref,onMounted,inject, h, nextTick} from 'vue'
 import { createPopper } from '@popperjs/core';
 import type { Instance } from '@popperjs/core'
 import { TooltipInstance } from '@/components/Tooltip/type';
@@ -46,7 +42,6 @@ import Collapse from '@/components/Collapse/Collapse.vue';
 import Icon from '@/components/Icon/Icon.vue'
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import DropDown from '@/components/DropDown/DropDown.vue';
-import Message from '@/components/Message/Message.vue'
 import { createMessage } from '@/components/Message/method'
 const activeNames = ref(['1'])
 const buttonRef = ref()
@@ -60,14 +55,21 @@ let popperInstance:Instance|null = null
 // if(overlayNode.value && triggerNode.value){
 //   console.log("生成")
 onMounted(()=>{
-  createMessage({message: "hello world",duration:0})
-  createMessage({message: "hello world again",duration:0})
+  
   popperInstance = createPopper(triggerNode.value,overlayNode.value,{
   placement: 'left'
 })
+
+let instance = createMessage({message :'hello mu world'})
+setTimeout(()=>{
+  console.log("创建的instance",instance)
+  instance.distory()
+  console.log("3秒后销毁")
+ 
+},3000)
 })
 
-//}
+
 
 const showTooltip = ()=>{
   console.log("tooltipRef",tooltipRef)

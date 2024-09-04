@@ -1,0 +1,16 @@
+.message{
+    width: 500px !important;
+    position: fixed;
+    left: 50%;
+    top: 20px;
+    margin: auto;
+    transform: translateX(-250px);
+}
+.message-close{
+    right: 5px;
+    position: absolute;
+
+}
+.message-close:hover {
+  cursor: pointer;
+}
