@@ -2,7 +2,7 @@
     <div 
     v-show="isVisible"
     class="message"
-    :class="{ [`message--${type}`]: type}"
+    :class="{[`message--${type}`]: type}"
     :style = "cssStyle"
     ref="messageRef"
     >
@@ -76,17 +76,3 @@ defineExpose({
   visible: isVisible
 })
 </script>
-<style scoped>
-.message.fade-up-enter-from,
-.message.fade-up-leave-to {
-  opacity: 0;
-  transform: translate(-50%, -100%);
-}
-.message{
-  display: flex;
-  width: 100%;
-  height: 50px;
-  border: 2px solid black;
-  align-items: center;
-}
-</style>

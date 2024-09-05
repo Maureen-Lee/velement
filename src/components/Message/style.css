@@ -1,16 +1,38 @@
 .message{
-    width: 500px !important;
+    width: 500px;
     position: fixed;
     left: 50%;
     top: 20px;
     margin: auto;
     transform: translateX(-250px);
+    padding: 5px 20px;
+    background-color: var(--message-bg-color);
+    border-color: var(--message-border-color);
+    display: flex;
+    justify-content: space-between;
+    .message__content{
+      color: var(--message-text-color);
+    }
+    
 }
-.message-close{
-    right: 5px;
-    position: absolute;
 
+@each $type,$color in var(--colors) {
+    --message-bg-color-$(type): 
 }
-.message-close:hover {
+.message-close {
+  display: flex;
+  align-items: center;
+}
+
+.message__close svg {
   cursor: pointer;
 }
+
+@each $type in primary,info,success,warning,danger {
+
+  .message--$(type){
+    --message-bg-color: var(--vk-color-$(type)-light-9);
+    --message-border-color: var(--vk-color-$(type)-light-8);
+    --message-text-color: var(--vk-color-$(type));
+  }
+  }

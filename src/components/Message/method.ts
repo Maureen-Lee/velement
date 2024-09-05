@@ -18,6 +18,7 @@ export function createMessage(props:MessageProps){
     }
     const newProps = {
         ...props,
+        type: props.type || 'primary',
         id,
         onDistory: distory
     }

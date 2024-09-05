@@ -27,7 +27,7 @@
     <div>tpfdnvpeo</div>
   </Tooltip>
   <DropDown v-bind:menu-options="menuOptions">下拉菜单</DropDown>
-  <Button @click="createMessage({message :'hello world'})">创建message</Button>
+  <Button @click="createMessage({message :'hello world',type: 'danger'})">创建message</Button>
   </div>
 </template>
 
