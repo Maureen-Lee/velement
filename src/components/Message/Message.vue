@@ -4,6 +4,8 @@
     class="message"
     :class="{[`message--${type}`]: type}"
     :style = "cssStyle"
+    @mouseover="clearTimer"
+    @mouseleave="startTimer"
     ref="messageRef"
     >
 
@@ -24,6 +26,7 @@ import useEventListener from '../../hooks/useEventListener'
 import {getLastInstance, getLastBottomOffset } from './method';
 import  RenderVnode  from '../Common/RenderVnode';
 import Icon from '../Icon/Icon.vue'
+import { start } from '@popperjs/core';
 const messageRef =  ref()
 
 const props = withDefaults(defineProps<MessageProps>(),{
@@ -45,16 +48,23 @@ const cssStyle = computed(()=>
 const isVisible = ref(true)
 let timer:any;
 onMounted(async ()=>{
-  setTimeout(()=>{
-    isVisible.value= false
-  },props.duration)
+ startTimer()
 })
-
 watch(isVisible,(newValue)=>{
   if(!newValue){
     props.onDistory()
   }
 })
+function startTimer(){
+  if(props.duration == 0) return
+ timer =  setTimeout(()=>{
+    isVisible.value= false
+  },props.duration)
+}
+
+function clearTimer(){
+  clearTimeout(timer)
+}
 
 //添加键盘事件
 useEventListener(document,'keydown',(e:KeyboardEvent)=>{
