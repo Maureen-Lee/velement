@@ -1,4 +1,9 @@
 <template> 
+<transition
+v-bind:name="transitionName"
+@afterLeave="distoryComponent"
+@enter="updateHeight"
+>
     <div 
     v-show="isVisible"
     class="message"
@@ -18,6 +23,7 @@
          <Icon icon="xmark"></Icon> 
       </div>
     </div>
+  </transition>
 </template>
 <script setup lang="ts">
 import { ref ,watch,onMounted, reactive, nextTick ,computed,watchEffect} from 'vue'
@@ -28,7 +34,7 @@ import  RenderVnode  from '../Common/RenderVnode';
 import Icon from '../Icon/Icon.vue'
 import { start } from '@popperjs/core';
 const messageRef =  ref()
-
+let height = ref(0)
 const props = withDefaults(defineProps<MessageProps>(),{
     type: 'info',
     duration: 3000,
@@ -38,23 +44,28 @@ const props = withDefaults(defineProps<MessageProps>(),{
 
 const lastInstance = reactive(getLastInstance())
 let lastBottom =  computed(()=>  getLastBottomOffset(props.id))
-let bottom = computed(()=> lastBottom.value + props.offset + messageRef.value?.offsetHeight)
+let bottom = computed(()=> lastBottom.value + props.offset + height.value)
 const cssStyle = computed(()=>  
   ({
     top: `${props.offset + lastBottom.value}px`,
     zIndex: props.zIndex
  })
   )
-const isVisible = ref(true)
+const isVisible = ref(false)
 let timer:any;
 onMounted(async ()=>{
+ isVisible.value = true
  startTimer()
 })
-watch(isVisible,(newValue)=>{
-  if(!newValue){
-    props.onDistory()
-  }
-})
+// watch(isVisible,(newValue)=>{
+//   if(!newValue){
+//     props.onDistory()
+//   }
+// })
+function updateHeight(){
+ height.value =  messageRef.value?.offsetHeight
+ console.log("height",height.value)
+}
 function startTimer(){
   if(props.duration == 0) return
  timer =  setTimeout(()=>{
@@ -84,3 +95,14 @@ defineExpose({
   visible: isVisible
 })
 </script>
+<style scoped>
+.fade-up-enter-active,
+.fade-up-leave-active{
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-up-enter-from,.fade-up-leave-to{
+  opacity: 0;
+  transform: translate(-250px,-100%)
+}
+
+</style>

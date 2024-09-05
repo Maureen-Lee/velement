@@ -14,9 +14,9 @@ export function createMessage(props:MessageProps){
         if(idx == -1) return 
         instances.splice(idx,1)    
         render(null,container)
-        if(container.parentNode) {
-            container.parentNode.removeChild(container); // 从 DOM 中移除 container
-        }
+        // if(container.parentNode) {
+        //     container.parentNode.removeChild(container); // 从 DOM 中移除 container
+        // }
     }
     const newProps = {
         ...props,
