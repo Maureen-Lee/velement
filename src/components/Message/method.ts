@@ -1,9 +1,11 @@
 import { h,render ,shallowReactive,nextTick,computed} from "vue"
 import MessageConStructor from "./Message.vue"
 import { MessageProps ,MessageContext} from "./types"
+import useZIndex from "../../hooks/useZIndex"
 let instances:MessageContext[] = shallowReactive([])
 let seed = 1;
 export function createMessage(props:MessageProps){
+    const {nextZIndex} = useZIndex()
     const container = document.createElement('div')
     const id =  `message_${seed++}`
     const distory = ()=> {
@@ -20,7 +22,8 @@ export function createMessage(props:MessageProps){
         ...props,
         type: props.type || 'primary',
         id,
-        onDistory: distory
+        onDistory: distory,
+        zIndex: nextZIndex()
     }
     const vnode = h(MessageConStructor,newProps)
     render(vnode,container) //将虚拟DOM 挂载到 容器中

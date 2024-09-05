@@ -13,6 +13,7 @@ import type{ VNode } from 'vue'
     dangerouslyUseHTMLString?: boolean;
     IconClass?: string;
     transitionName?: string;
+    zIndex: number;
 }
 export type  CreateMessageprops = Omit<MessageProps,'onDistroy'>
 
