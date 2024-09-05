@@ -20,6 +20,7 @@
 <script setup lang="ts">
 import { ref ,watch,onMounted, reactive, nextTick ,computed,watchEffect} from 'vue'
 import type { MessageProps } from './types'
+import useEventListener from '../../hooks/useEventListener'
 import {getLastInstance, getLastBottomOffset } from './method';
 import  RenderVnode  from '../Common/RenderVnode';
 import Icon from '../Icon/Icon.vue'
@@ -33,39 +34,35 @@ const props = withDefaults(defineProps<MessageProps>(),{
 })
 
 const lastInstance = reactive(getLastInstance())
-console.log("lastInstance",lastInstance)
 let lastBottom =  computed(()=>  getLastBottomOffset(props.id))
 let bottom = computed(()=> lastBottom.value + props.offset + messageRef.value?.offsetHeight)
-console.log("lastBottom:",lastBottom.value,"props.id:",props.id)
 const cssStyle = computed(()=>  
   ({
     top: `${props.offset + lastBottom.value}px`,
     zIndex: props.zIndex
  })
   )
-console.log("cssStyle",cssStyle)
-
-
-
-
-const isVisible = ref(false)
+const isVisible = ref(true)
 let timer:any;
 onMounted(async ()=>{
-  isVisible.value = true
+  setTimeout(()=>{
+    isVisible.value= false
+  },props.duration)
 })
-
-console.log("lastInstance", lastInstance);
-console.log("lastBottom", lastBottom.value);
-console.log("cssStyle", cssStyle.value);
-
 
 watch(isVisible,(newValue)=>{
   if(!newValue){
     props.onDistory()
-    console.log("销毁dom",isVisible)
   }
 })
 
+//添加键盘事件
+useEventListener(document,'keydown',(e:KeyboardEvent)=>{
+
+  if(e.code === 'Escape'){
+    isVisible.value = false
+  }
+})
 function distoryComponent(){
  props.onDistory()
 }

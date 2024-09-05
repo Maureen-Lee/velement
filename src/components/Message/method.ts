@@ -14,7 +14,7 @@ export function createMessage(props:MessageProps){
         if(idx == -1) return 
         instances.splice(idx,1)    
         render(null,container)
-        if (container.parentNode) {
+        if(container.parentNode) {
             container.parentNode.removeChild(container); // 从 DOM 中移除 container
         }
     }
@@ -52,11 +52,9 @@ export function getLastInstance(){
 }
 export function getLastBottomOffset(id: String){
     const idx = instances.findIndex(instance=>instance.id == id)
-    console.log('id:',id,"idx:",idx,instances.length)
     if(idx <= 0 ) return 0
     else{
         const prev = instances[idx-1]
-        console.log('lastBottomOffser',prev.vnode.component!.exposed!.bottom.value,"prev:",prev)
         return prev.vnode.component!.exposed!.bottom.value
     }
 }

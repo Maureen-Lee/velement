@@ -9,7 +9,6 @@ const useZIndex = (initialValue: number = 2000) =>{
     console.log('currentZIndex:',currentZIndex.value)
     const nextZIndex = ()=>{
         zIndex.value++
-        console.log('zIndex:',currentZIndex.value)
         return currentZIndex.value
     }
 return {currentZIndex,nextZIndex,initialZIndex}
