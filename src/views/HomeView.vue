@@ -28,6 +28,22 @@
   </Tooltip>
   <DropDown v-bind:menu-options="menuOptions">下拉菜单</DropDown>
   <Button @click="createMessage({message :'hello world',type: 'danger'})">创建message</Button>
+  <div>
+      <Input clearable>
+        <template #prefix>
+               prefix
+        </template>
+        <template #suffix>
+              
+        </template>
+      </Input>
+      <Input showPassword>
+        
+      </Input>
+      <Input  placeholder="你好">
+        
+      </Input>
+  </div>
   </div>
 </template>
 
@@ -42,7 +58,9 @@ import Collapse from '@/components/Collapse/Collapse.vue';
 import Icon from '@/components/Icon/Icon.vue'
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import DropDown from '@/components/DropDown/DropDown.vue';
+import Input from '@/components/Input/Input.vue'
 import { createMessage } from '@/components/Message/method'
+import parent from '@/components/model/parent'
 const activeNames = ref(['1'])
 const buttonRef = ref()
 onMounted(()=>{
