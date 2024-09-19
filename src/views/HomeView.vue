@@ -40,9 +40,7 @@
       <Input showPassword>
         
       </Input>
-      <Input  placeholder="你好">
-        
-      </Input>
+      <Switch v-model="switchValue" activeText="123"></Switch>
   </div>
   </div>
 </template>
@@ -59,6 +57,7 @@ import Icon from '@/components/Icon/Icon.vue'
 import Tooltip from '@/components/Tooltip/Tooltip.vue';
 import DropDown from '@/components/DropDown/DropDown.vue';
 import Input from '@/components/Input/Input.vue'
+import Switch from '@/components/Switch/Switch.vue';
 import { createMessage } from '@/components/Message/method'
 import parent from '@/components/model/parent'
 const activeNames = ref(['1'])
@@ -68,6 +67,7 @@ onMounted(()=>{
 })
 const overlayNode = ref<HTMLElement>()
 const triggerNode = ref<HTMLElement>()
+const switchValue = ref("122")
 const tooltipRef = ref<TooltipInstance | null>(null)
 let popperInstance:Instance|null = null
 // if(overlayNode.value && triggerNode.value){
