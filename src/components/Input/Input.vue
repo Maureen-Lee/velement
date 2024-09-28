@@ -1,7 +1,12 @@
 <template>
-    <div class="el-input"
+    <div class="vk-input"
     :class="{
-        'input-wrapper--disabled': disabled,
+        [`input-wrapper--${type}`]: type,
+        'is-disabled': disabled,
+        'is-append': $slots.append,
+        'is-prefix': $slots.prefix,
+        'is-suffix': $slots.suffix,
+        'is-focus': isFocus,
         'input-wrapper--readonly': readonly, 
     }"
     >
@@ -20,25 +25,26 @@
     </template>
     <template v-else>
       <!-- prepend slot -->
-        <div class="input-prepend">
+        <div  v-if="$slots.prepend" class="vk-input__prepend">
             <slot name="prepend"/>
          </div>
         
-         <div class="input-wrapper">
+         <div class="vk-input__wrapper">
             <!-- prefix slot -->
-            <div v-if="$slots.prefix" class="input-prefix">
+            <div v-if="$slots.prefix" class="vk-input__prefix">
                 <slot name="prefix"/>
             </div> 
             <input
+               class="vk-input__inner"
                :type="showPassword? (passwordVisible ? 'text' : 'password') : type" 
                v-bind="attrs"
                v-model="innerValue" 
                :disabled="disabled"
                :readonly="readonly"
-        :autocomplete="autocomplete"
-        :placeholder="placeholder"
-        :autofocus="autofocus"
-        :form="form"
+               :autocomplete="autocomplete"
+               :placeholder="placeholder"
+               :autofocus="autofocus"
+               :form="form"
                @input="handleInput"
                @focus="handleFocus" 
                @blur="handleBlur"
@@ -80,6 +86,7 @@ import type { InputProps ,InputEmits }  from './types'
 defineOptions({
     inheritAttrs: false
 })
+const isFocus = ref(false)
 const props = withDefaults(defineProps<InputProps>(),{
     type: 'text'
 });
@@ -92,6 +99,7 @@ const showClear = computed(()=>
      props.clearable && 
      !!innerValue.value && 
      !props.disabled 
+     && isFocuse.value
 )
 const showPasswordArea = computed(()=>
     props.showPassword && 
@@ -121,25 +129,3 @@ watch(()=> props.modelValue, (newValue)=>{
 })
 
 </script>
-<style scoped>
-.input-wrapper{
-    display: inline-flex;
-    position: relative;
-}
-.input-prefix,.input-suffix{
-    display: inline-flex;
-    justify-content: center;
-    color: #999;
-    font-size: 14px;
-    cursor: pointer;
-    position: absolute;
-    width: 70px;
-}
-.input-prefix{
-    left: 0;
-}
-.input-suffix{
-    right: 0;
-}
-
-</style>

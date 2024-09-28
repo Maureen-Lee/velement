@@ -31,7 +31,7 @@
   <div>
       <Input clearable>
         <template #prefix>
-               prefix
+              
         </template>
         <template #suffix>
               
@@ -41,12 +41,17 @@
         
       </Input>
       <Switch v-model="switchValue" activeText="123"></Switch>
+     <Select  :options="selectOptions" clearable></Select>
+     <div id="testnode">
+     <button @click="createNode">创建node</button>
+     </div>
+     
   </div>
   </div>
 </template>
 
 <script  setup lang="ts" >
-import { ref,onMounted,inject, h, nextTick} from 'vue'
+import { ref,onMounted,inject, h, nextTick,render} from 'vue'
 import { createPopper } from '@popperjs/core';
 import type { Instance } from '@popperjs/core'
 import { TooltipInstance } from '@/components/Tooltip/type';
@@ -59,7 +64,8 @@ import DropDown from '@/components/DropDown/DropDown.vue';
 import Input from '@/components/Input/Input.vue'
 import Switch from '@/components/Switch/Switch.vue';
 import { createMessage } from '@/components/Message/method'
-import parent from '@/components/model/parent'
+import Select from '@/components/Select/Select.vue';
+import { RenderV } from '@/components/Common/RenderV'
 const activeNames = ref(['1'])
 const buttonRef = ref()
 onMounted(()=>{
@@ -70,6 +76,8 @@ const triggerNode = ref<HTMLElement>()
 const switchValue = ref("122")
 const tooltipRef = ref<TooltipInstance | null>(null)
 let popperInstance:Instance|null = null
+const btnRef = ref()
+const tipRef= ref()
 // if(overlayNode.value && triggerNode.value){
 //   console.log("生成")
 onMounted(()=>{
@@ -117,4 +125,78 @@ const menuOptions = [
   },
 
 ]
+let popperInstance2:Instance|null = null
+
+const selectOptions = [
+  {label: 'hello544',value: '1'},
+  {label: 'hello2',value: '2'},
+  {label: 'hello3',value: '3',disabled: true},
+]
+     
+  const testvnode = h('div',{
+      style:{
+        color: 'red'
+      }
+    },'hello vnode')
+    console.log("testvnode",testvnode)
+    const testvnode2 = 'hello vnode2'
+const createNode = ()=>{
+  
+  const containernode = document.createElement('div')
+  const vNode =  h(RenderV,{vNode:"helloDIWndjwuvbiw"})
+  console.log("创建的Vnode",vNode)
+   render(vNode,containernode)
+   document.getElementById('testnode')?.appendChild(containernode)
+}
 </script>
+
+<style scoped>
+#tooltip {
+        background: #333;
+        color: white;
+        font-weight: bold;
+        /* width: 200px; */
+        padding: 4px 8px;
+        font-size: 13px;
+        border-radius: 4px;
+        display: none;
+      }
+      #tooltip[data-show] {
+        display: block;
+      }
+     
+#arrow,
+#arrow::before{
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+}
+
+#arrow {
+  visibility: hidden;
+ 
+}
+
+#arrow::before {
+  visibility: visible;
+  content: '';
+  transform: rotate(45deg);
+}
+
+#tooltip[data-popper-placement^='top'] > #arrow {
+  bottom: -4px;
+}
+
+#tooltip[data-popper-placement^='bottom'] > #arrow {
+  top: -4px;
+}
+
+#tooltip[data-popper-placement^='left'] > #arrow {
+  right: -4px;
+}
+
+#tooltip[data-popper-placement^='right'] > #arrow {
+  left: -4px;
+}
+</style>

@@ -2,7 +2,7 @@
     --vk-popover-bg-color: var(--vk-bg-color-overlay);
     --vk-popover-font-size: var(--vk-font-size-base);
     --vk-popover-border-color: var(--vk-border-color);
-    --vk-popover-padding: 12px;
+    --vk-popover-padding: 5px;
     --vk-popover-border-radius: 4px;
     display: inline-block;
   }

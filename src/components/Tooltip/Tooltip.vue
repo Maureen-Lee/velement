@@ -94,8 +94,11 @@ const closeFinal = ()=>{
 useClickOutside(triggerNode,()=>{
   if(!props.manual)
   {
-  if(props.trigger == 'click' && isOpen.value )
+  if(props.trigger == 'click' && isOpen.value && !props.manual)
   closeDebounce()
+  }
+  if(isOpen.value) {
+    emits('click-outside', true)
   }
 })
 const attachEvents = ()=>{

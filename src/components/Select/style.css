@@ -1,0 +1,57 @@
+.select {
+    width: 200px;
+    cursor: pointer;
+    --vk-select-item-hover-bg-color: var(--vk-fill-color-light);
+    --vk-select-item-font-size: var(--vk-font-size-base);
+    --vk-select-item-font-color: var(--vk-text-color-regular);
+    --vk-select-item-selected-font-color: var(--vk-color-primary);
+    --vk-select-item-disabled-font-color: var(--vk-text-color-placeholder);
+    --vk-select-input-focus-border-color: var(--vk-color-primary);
+}
+.vk-select__tooltip{
+    padding: 5px 0 !important;
+    width: 200px;
+    box-sizing: border-box;
+   
+}
+.select input{
+    width: 100%;
+    height: 52px;
+    box-sizing: border-box;
+}
+
+ul{
+    padding: 0 ;
+    margin: 0;
+    width: 100%;
+    position: relative;
+}
+li{
+    list-style: none;
+    cursor: pointer;
+    width : 100%;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    padding: 0 32px 0 20px;
+    box-sizing: border-box;
+    &.is-disabled {
+        color: var(--vk-select-item-disabled-font-color);
+        cursor: not-allowed;
+        &:hover {
+          background-color: transparent;
+        }
+      }
+}
+li:hover{
+    background: #eee;
+}
+.vk-input {
+    .header-angle {
+      transition: transform ease-in-out .3s;
+      &.is-active {
+        transform: rotate(180deg);
+      }
+    }
+  }

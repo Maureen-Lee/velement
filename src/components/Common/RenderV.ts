@@ -1,5 +1,5 @@
-import { defineComponent } from "vue";
-const RenderVnode = defineComponent({
+import { defineComponent,h } from "vue";
+const RenderV = defineComponent({
       props: {
          vNode:{
             type:[String,Object],
@@ -13,4 +13,4 @@ const RenderVnode = defineComponent({
 
 })
 
-export default RenderVnode
+export default RenderV
