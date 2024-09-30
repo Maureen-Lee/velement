@@ -46,6 +46,7 @@
                :autofocus="autofocus"
                :form="form"
                @input="handleInput"
+               @change="handleChange"
                @focus="handleFocus" 
                @blur="handleBlur"
                 />
@@ -80,7 +81,7 @@
     </div>
 </template>                                                                                                                            
 <script setup lang="ts">
-import { computed, ref,watch,useAttrs } from 'vue'
+import { computed, ref,watch,useAttrs ,onMounted} from 'vue'
 import Icon from '../Icon/Icon.vue'
 import type { InputProps ,InputEmits }  from './types'
 defineOptions({
@@ -90,7 +91,7 @@ const isFocus = ref(false)
 const props = withDefaults(defineProps<InputProps>(),{
     type: 'text'
 });
-const emit = defineEmits<InputEmits>()
+const emits = defineEmits<InputEmits>()
 const attrs = useAttrs()
 const innerValue = ref(props.modelValue)
 const isFocuse = ref(false)
@@ -118,14 +119,18 @@ const handleBlur = ()=>{
     console.log("handleBlur blur",isFocuse.value)
 }
 const handleInput = ()=>{
-    emit('update:modelValue',innerValue.value? innerValue.value:'')
+    emits('update:modelValue',innerValue.value? innerValue.value:'')
+    // emits('input', innerValue.value)
 }
 const clear = ()=>{
     innerValue.value = ''
-    emit('update:modelValue','')
+    emits('update:modelValue','')
 }
 watch(()=> props.modelValue, (newValue)=>{
+    console.log("watchInput",newValue)
     innerValue.value = newValue
 })
-
+onMounted(()=>{
+    console.log("onMounted",props.modelValue)
+})
 </script>

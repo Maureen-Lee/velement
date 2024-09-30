@@ -43,6 +43,10 @@ li{
           background-color: transparent;
         }
       }
+    &.is-selected {
+        color: var(--vk-select-item-selected-font-color);
+        font-weight: 700;    
+      }
 }
 li:hover{
     background: #eee;

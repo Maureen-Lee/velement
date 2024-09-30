@@ -65,7 +65,6 @@ import Input from '@/components/Input/Input.vue'
 import Switch from '@/components/Switch/Switch.vue';
 import { createMessage } from '@/components/Message/method'
 import Select from '@/components/Select/Select.vue';
-import { RenderV } from '@/components/Common/RenderV'
 const activeNames = ref(['1'])
 const buttonRef = ref()
 onMounted(()=>{
@@ -79,7 +78,7 @@ let popperInstance:Instance|null = null
 const btnRef = ref()
 const tipRef= ref()
 // if(overlayNode.value && triggerNode.value){
-//   console.log("生成")
+//   console.log("生成") 
 onMounted(()=>{
   
   popperInstance = createPopper(triggerNode.value,overlayNode.value,{

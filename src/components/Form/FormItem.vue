@@ -1,0 +1,69 @@
+<template>
+    <div class="vk-form-item"
+       :class="{
+         'is-error': validateStatus.state === 'error',
+         'is-success': validateStatus.state === 'success',
+         'is-loading': validateStatus.loading,
+       }">
+     <label class="vk-form-item__label">
+        <slot name="label" :label="label" >
+            {{ label }}
+        </slot>
+    </label>
+     <div class="vk-form-item__content">
+        <slot></slot>
+        <div class="vk-form-item__error" v-if="validateStatus.state === 'error'">{{ validateStatus.errmsg }}</div>
+     </div>
+     innerValue:{{ innerValue }}
+     itemRules: {{ itemRules }} 
+     <button @click.prevent="validate">validate</button>
+    </div>
+</template>
+<script lang="ts" setup>
+import { inject,computed,reactive } from 'vue';
+import { FormItemProps ,formContextKey} from './types'
+import Schema from 'async-validator';
+import type { RuleItem } from 'async-validator'
+import { isNil  } from 'lodash-es'
+const props = defineProps<FormItemProps>()
+const formContext = inject(formContextKey)
+
+const innerValue = computed(()=>{
+    const model = formContext?.model
+if(model && props.prop && !isNil(model[props.prop]))
+return model[props.prop]
+else return null
+})
+const itemRules = computed(()=>{
+    const rules = formContext?.rules
+    if(rules && props.prop && rules[props.prop] )
+    return rules[props.prop]
+    else return []
+})
+
+const validateStatus = reactive({
+    state: 'init',
+    errmsg:"",
+    loading: false
+})
+const validate = () =>{
+    const modelName = props.prop;
+    if(modelName) {
+        const validator = new Schema({
+            [modelName]: itemRules.value
+        })
+        validator.validate({[modelName]: innerValue.value})
+        .then(()=>{
+            validateStatus.state = 'success'
+            console.log("validate success")
+        })
+        .catch((e:any)=>{
+            validateStatus.state = 'error'
+            validateStatus.errmsg = e.errors[0].message
+            console.log("validate fail",e.errors)
+        })
+    }
+    
+}
+console.log("inject",formContext)
+</script>

@@ -18,7 +18,7 @@
            class="vk-input"
            v-model="states.inputValue"
            type="text"
-           readonly> 
+           :readonly="!filterable"> 
            <template #suffix>
             <Icon
               v-if="showClearIcon"
@@ -42,11 +42,13 @@
                 <li 
                  :class="{
                     'is-disabled': option.disabled, 
-                    'is-selected': props.modelValue === option.value ,
+                    'is-selected': states.inputValue === option.label ,
                  }"
                  v-for="option in options" 
                  :key="option.value"
-                 @click="itemSelect(option)">{{ option.label }} </li>
+                 @click="itemSelect(option)">
+                <RenderVnode :vNode="renderLabel ? renderLabel(option): option.label "></RenderVnode>
+                </li>
             </ul>
         </template>
        </ToolTip>
@@ -62,6 +64,7 @@ import ToolTip from '../Tooltip/Tooltip.vue'
 import Input from '../Input/Input.vue'
 import Icon from '../Icon/Icon.vue'
 import type { SelectProps ,SelectEmits ,SelectOption,SelectStates } from './types'
+import RenderVnode from '../Common/RenderVnode'
 const props = defineProps<SelectProps>();
 const emits = defineEmits<SelectEmits>();
 const isDropdownShow = ref(false)
