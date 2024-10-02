@@ -11,7 +11,7 @@
         </slot>
     </label>
      <div class="vk-form-item__content">
-        <slot></slot>
+        <slot :validate="validate"/>
         <div class="vk-form-item__error" v-if="validateStatus.state === 'error'">{{ validateStatus.errmsg }}</div>
      </div>
      innerValue:{{ innerValue }}
@@ -20,11 +20,11 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { inject,computed,reactive } from 'vue';
-import { FormItemProps ,formContextKey} from './types'
+import { inject,computed,reactive,provide ,onMounted,onUnmounted} from 'vue';
+import { FormItemProps ,formContextKey,formItemContextKey} from './types'
 import Schema from 'async-validator';
-import type { RuleItem } from 'async-validator'
 import { isNil  } from 'lodash-es'
+import { FormItemContext } from '../../../../v-element/src/components/Form/types';
 const props = defineProps<FormItemProps>()
 const formContext = inject(formContextKey)
 
@@ -46,24 +46,68 @@ const validateStatus = reactive({
     errmsg:"",
     loading: false
 })
-const validate = () =>{
+
+const  getTriggeredRules = (trigger?: string) => {
+    const rules = itemRules.value;
+    if (rules) {
+        return rules.filter(rule => {
+            if (!rule.trigger || !trigger) return true
+            return rule.trigger && rule.trigger === trigger
+        })
+    } else {
+        return [] 
+    }
+}
+const validate = (trigger?: string) =>{
     const modelName = props.prop;
+    const triggeredRules = getTriggeredRules(trigger) 
+    console.log("modelName",triggeredRules,"trigger",trigger)
+    if(triggeredRules.length === 0) return true
     if(modelName) {
         const validator = new Schema({
-            [modelName]: itemRules.value
-        })
-        validator.validate({[modelName]: innerValue.value})
+            [modelName]: triggeredRules
+        }) 
+        validateStatus.loading = true
+      return   validator.validate({[modelName]: innerValue.value})
         .then(()=>{
             validateStatus.state = 'success'
             console.log("validate success")
         })
         .catch((e:any)=>{
+            const { errors } = e
             validateStatus.state = 'error'
-            validateStatus.errmsg = e.errors[0].message
+            validateStatus.errmsg = (errors && errors.length > 0) ? errors[0].message || '' : ''
             console.log("validate fail",e.errors)
+           // return Promise.reject(e)
         })
+        .finally(() => {
+        validateStatus.loading = false
+      })
     }
     
 }
-console.log("inject",formContext)
+const clearValidate = () => {
+  validateStatus.state = 'init'
+  validateStatus.errmsg = ''
+  validateStatus.loading = false
+  const model = formContext?.model
+  if (model && props.prop && !isNil(model[props.prop])) { 
+    model[props.prop] = ''
+  }
+}
+const context: FormItemContext = {
+    validate,
+    prop: props.prop || '',
+    clearValidate
+}
+provide(formItemContextKey,context)
+onMounted(()=>{
+    if(props.prop)
+    formContext?.addField(context)
+})
+onUnmounted(()=>{
+    if(props.prop)
+    formContext?.removeField(context)
+})
+//console.log("inject",formContext)
 </script>

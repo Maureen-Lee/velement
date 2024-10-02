@@ -81,8 +81,9 @@
     </div>
 </template>                                                                                                                            
 <script setup lang="ts">
-import { computed, ref,watch,useAttrs ,onMounted} from 'vue'
+import { computed, ref,watch,useAttrs ,onMounted,inject} from 'vue'
 import Icon from '../Icon/Icon.vue'
+import { formItemContextKey } from '../Form/types';
 import type { InputProps ,InputEmits }  from './types'
 defineOptions({
     inheritAttrs: false
@@ -91,6 +92,10 @@ const isFocus = ref(false)
 const props = withDefaults(defineProps<InputProps>(),{
     type: 'text'
 });
+const formItemContext = inject(formItemContextKey)
+const runValidation = (trigger?: string) => {
+    return formItemContext?.validate(trigger)
+}
 const emits = defineEmits<InputEmits>()
 const attrs = useAttrs()
 const innerValue = ref(props.modelValue)
@@ -116,9 +121,12 @@ const handleFocus = ()=>{
 }
 const handleBlur = ()=>{
     isFocuse.value = false
+    runValidation('blur')
+    console.log("验证")
     console.log("handleBlur blur",isFocuse.value)
 }
 const handleInput = ()=>{
+    runValidation('input')
     emits('update:modelValue',innerValue.value? innerValue.value:'')
     // emits('input', innerValue.value)
 }
@@ -127,10 +135,7 @@ const clear = ()=>{
     emits('update:modelValue','')
 }
 watch(()=> props.modelValue, (newValue)=>{
-    console.log("watchInput",newValue)
     innerValue.value = newValue
 })
-onMounted(()=>{
-    console.log("onMounted",props.modelValue)
-})
+
 </script>

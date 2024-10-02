@@ -1,7 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
-  <Form :model="model" :rules="rules">
+  <Form :model="model" :rules="rules" ref="formRef">
     <FormItem label="name" prop="name">
       <Input v-model="model.name" placeholder="name" />
     </FormItem>
@@ -14,19 +13,29 @@
       </template>
       <Input v-model="model.password" placeholder="password" />
     </FormItem>
+    <FormItem label="test value" prop="test">
+      <template #default="{validate}">
+        <input v-model="model.test" />
+        <button @click="submit">submit</button>
+        <button @click="reset">reset</button>
+      </template>
+
+    </FormItem>
   </Form>
 
   </div>
 </template>
 <script setup lang="ts">
-import { reactive ,watch} from "vue";
+import { reactive ,watch,ref} from "vue";
 import Form from "../components/Form/Form.vue";
 import FormItem from "../components/Form/FormItem.vue";
 import Input from "../components/Input/Input.vue";
+const formRef = ref()
 const model = reactive({
   name: "",
   email: "",
-  password: ""
+  password: "",
+  test: ""
 });
 watch(()=>model.name,()=>console.log(model.name) )
 const rules = {
@@ -38,9 +47,14 @@ const rules = {
   ],
   email: [
     {
+      type: "email",
       required: true,
-      message: "email is required",
       trigger: "blur"
+    },
+    {
+      type: "string",
+      message: "email is not valid",
+      trigger: "input"
     }
   ],
   password: [
@@ -49,7 +63,26 @@ const rules = {
       message: "password is required",
       trigger: "blur"
     }
+  ],
+  test: [
+    {
+      required: true,
+      message: "test is required",
+      trigger: "blur"
+    }
   ]
 }
+
+const submit = async ()=>{
+  try{
+    await formRef.value.validate()
+    console.log("Passed!")
+  }catch(e){
+    console.log("submit出错",e)
+  }
+  }
+ const reset = ()=>{
+    formRef.value.resetFields()
+  }
 </script>
 
