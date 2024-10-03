@@ -1,7 +1,8 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
+    <router-link to="/">Home</router-link> 
     <router-link to="/about">About</router-link>
+    {{ $echo('mojfoisfooah') }}
   </nav>
   <router-view/>
 </template>
@@ -9,9 +10,8 @@
 
 <script setup lang="ts">
 
-
-
-
+import {inject } from 'vue'
+console.log("inject('test')",inject('test'))
 </script>
 
 <style>
