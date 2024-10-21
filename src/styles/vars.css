@@ -1,4 +1,8 @@
 :root {
+  *{
+    margin: 0;
+    padding: 0;
+  }
   /* colors */
   --vk-color-white: #ffffff;
   --vk-color-black: #000000;

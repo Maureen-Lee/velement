@@ -14,9 +14,8 @@
         <slot :validate="validate"/>
         <div class="vk-form-item__error" v-if="validateStatus.state === 'error'">{{ validateStatus.errmsg }}</div>
      </div>
-     innerValue:{{ innerValue }}
-     itemRules: {{ itemRules }} 
-     <button @click.prevent="validate">validate</button>
+    
+     <!-- <button @click.prevent="validate">validate</button> -->
     </div>
 </template>
 <script lang="ts" setup>
@@ -111,3 +110,26 @@ onUnmounted(()=>{
 })
 //console.log("inject",formContext)
 </script>
+<style  scoped>
+.vk-form-item{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.vk-form-item__label{
+    line-height: 32px;
+}
+.vk-form-item__content{
+    margin-left: 10px;
+}
+.is-error .vk-form-item__content{
+    border: 1px solid #ff4d4f;
+    border-radius: 4px;
+    box-shadow: none;
+    color: #ff4d4f;
+}
+.vk-form-item__error{
+    position: absolute;
+}
+
+</style>
